@@ -1,4 +1,4 @@
 #!/bin/sh
 
-./analyse output/raw-1024.txt < eebo-tcp.txt
-./analyse.py
+./analyse output/results.xml output/raw-1024.txt < eebo-tcp.txt
+./analyse.py html output/results.xml
