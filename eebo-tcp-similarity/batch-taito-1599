@@ -3,10 +3,10 @@
 #SBATCH -J similarity
 #SBATCH -o output-1599/log.txt
 #SBATCH -e output-1599/err.txt
-#SBATCH -t 00:60:00
+#SBATCH -t 00:30:00
 #SBATCH -n 1
 #SBATCH -N 1
-#SBATCH -c 16
-#SBATCH --mem=60000
+#SBATCH -c 8
+#SBATCH --mem=30000
 #
 ./similarity-1599.sh
