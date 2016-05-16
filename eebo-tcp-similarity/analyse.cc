@@ -121,7 +121,7 @@ bool Text::for_each(pugi::xml_node& node) {
 struct Chunk
 {
     int size;
-    int authors;
+    bool good;
     std::vector<pi> positions;
 };
 
@@ -129,20 +129,26 @@ struct Chunk
 struct Analyse
 {
 public:
-    void process(const char* output_file, const char* filename);
+    Analyse(const char* output_file_, const char* filename_, const char* author_limit_=NULL)
+        : output_file{output_file_}, filename{filename_}, author_limit{author_limit_}
+    {}
+    void process();
 
 private:
     void find_chunk_size(int i);
-    void count_chunk_authors(int i);
+    void verify_chunk(int i);
     char peek_chunk(const Chunk& chunk, int j);
     bool ok_chunk(const Chunk& chunk);
 
+    const char* output_file;
+    const char* filename;
+    const char* author_limit;
     std::vector<Text> texts;
     std::vector<Chunk> chunks;
     Timer timer;
 };
 
-void Analyse::process(const char* output_file, const char* filename) {
+void Analyse::process() {
     timer.log("Read file list");
     std::string id;
     while (std::cin >> id) {
@@ -199,7 +205,7 @@ void Analyse::process(const char* output_file, const char* filename) {
     #pragma omp parallel for
     for (int i = 0; i < chunks.size(); ++i) {
         find_chunk_size(i);
-        count_chunk_authors(i);
+        verify_chunk(i);
     }
 
     timer.log("Sort chunks");
@@ -213,7 +219,7 @@ void Analyse::process(const char* output_file, const char* filename) {
     pugi::xml_document xresults;
     pugi::xml_node xroot = xresults.append_child("results");
     for (const Chunk& chunk : chunks) {
-        if (chunk.authors == 1) {
+        if (!chunk.good) {
             continue;
         }
         pugi::xml_node xchunk = xroot.append_child("chunk");
@@ -285,28 +291,40 @@ void Analyse::find_chunk_size(int i) {
     }
 }
 
-
-void Analyse::count_chunk_authors(int i) {
-    int anon = 0;
+void Analyse::verify_chunk(int i) {
     Chunk& chunk = chunks[i];
-    std::unordered_set<std::string> authors;
-    for (pi p : chunk.positions) {
-        if (texts[p.first].author.size() == 0) {
-            ++anon;
-        } else {
-            authors.insert(texts[p.first].author);
+    if (author_limit) {
+        chunk.good = false;
+        for (pi p : chunk.positions) {
+            auto hit = texts[p.first].author.find(author_limit);
+            if (hit != std::string::npos) {
+                chunk.good = true;
+            }
         }
+    } else {
+        int anon = 0;
+        std::unordered_set<std::string> authors;
+        for (pi p : chunk.positions) {
+            if (texts[p.first].author.size() == 0) {
+                ++anon;
+            } else {
+                authors.insert(texts[p.first].author);
+            }
+        }
+        chunk.good = (authors.size() + anon > 1);
     }
-    chunk.authors = authors.size() + anon;
 }
 
 
 int main(int argc, const char** argv) {
     std::ios_base::sync_with_stdio(0);
-    if (argc != 3) {
-        std::cerr << "usage: similarity OUTPUT_XML INPUT_FILE < EEBO_LIST" << std::endl;
+    if (argc < 3) {
+        std::cerr << "usage: similarity OUTPUT_XML INPUT_FILE [AUTHOR] < EEBO_LIST" << std::endl;
         std::exit(EXIT_FAILURE);
     }
-    Analyse analyse;
-    analyse.process(argv[1], argv[2]);
+    const char* output_file = argv[1];
+    const char* filename = argv[2];
+    const char* author_limit = argc < 3 ? NULL : argv[3];
+    Analyse analyse(output_file, filename, author_limit);
+    analyse.process();
 }
