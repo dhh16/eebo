@@ -4,3 +4,9 @@
 [submodule "eebo-tcp-similarity/pugixml"]
 	path = eebo-tcp-similarity/pugixml
 	url = https://github.com/zeux/pugixml.git
+[submodule "eebo-tcp"]
+	path = eebo-tcp
+	url = https://github.com/suomela/eebo-tcp.git
+[submodule "xml"]
+	path = xml
+	url = https://github.com/suomela/xml.git
