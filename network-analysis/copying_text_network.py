@@ -18,7 +18,10 @@ for i, r in cp_df.iterrows():
         d2d['Label'] = d2
         g.add_node(d1, d1d)
         g.add_node(d2, d2d)
-        g.add_edge(d1, d2)
+        if g.has_edge(d1, d2):
+            g[d1][d2]['weight'] += r['length']
+        else:
+            g.add_edge(d1, d2, {'weight': r['length']})
 
 nx.write_graphml(g,
                  'output/text_network_of_copying_relation.graphml')
