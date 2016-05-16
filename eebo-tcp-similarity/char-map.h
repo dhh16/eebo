@@ -7,7 +7,7 @@ inline char normalise(uint32_t x) {
         case    67:  // LATIN CAPITAL LETTER C
             return 'K';
         case    68:  // LATIN CAPITAL LETTER D
-            return 'D';
+            return 'T';
         case    70:  // LATIN CAPITAL LETTER F
             return 'S';
         case    71:  // LATIN CAPITAL LETTER G
@@ -53,7 +53,7 @@ inline char normalise(uint32_t x) {
         case    99:  // LATIN SMALL LETTER C
             return 'K';
         case   100:  // LATIN SMALL LETTER D
-            return 'D';
+            return 'T';
         case   102:  // LATIN SMALL LETTER F
             return 'S';
         case   103:  // LATIN SMALL LETTER G
@@ -125,7 +125,7 @@ inline char normalise(uint32_t x) {
         case   434:  // LATIN CAPITAL LETTER V WITH HOOK
             return 'V';
         case  7693:  // LATIN SMALL LETTER D WITH DOT BELOW
-            return 'D';
+            return 'T';
         case  7909:  // LATIN SMALL LETTER U WITH DOT BELOW
             return 'V';
         case  7935:  // LATIN SMALL LETTER Y WITH LOOP
