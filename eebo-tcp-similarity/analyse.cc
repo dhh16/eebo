@@ -254,7 +254,10 @@ void Analyse::process() {
         }
         ++c;
     }
-    xresults.save_file(output_file);
+    if (!xresults.save_file(output_file)) {
+        std::cerr << output_file << ": could not create" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     std::cout << "\tc = " << c << std::endl;
     timer.log("Done");
 }
