@@ -5,7 +5,7 @@ inline char normalise(uint32_t x) {
         case    66:  // LATIN CAPITAL LETTER B
             return 'B';
         case    67:  // LATIN CAPITAL LETTER C
-            return 'C';
+            return 'K';
         case    68:  // LATIN CAPITAL LETTER D
             return 'D';
         case    70:  // LATIN CAPITAL LETTER F
@@ -22,12 +22,8 @@ inline char normalise(uint32_t x) {
             return 'K';
         case    76:  // LATIN CAPITAL LETTER L
             return 'L';
-        case    77:  // LATIN CAPITAL LETTER M
-            return 'M';
-        case    78:  // LATIN CAPITAL LETTER N
-            return 'N';
         case    79:  // LATIN CAPITAL LETTER O
-            return 'O';
+            return 'V';
         case    80:  // LATIN CAPITAL LETTER P
             return 'P';
         case    81:  // LATIN CAPITAL LETTER Q
@@ -55,7 +51,7 @@ inline char normalise(uint32_t x) {
         case    98:  // LATIN SMALL LETTER B
             return 'B';
         case    99:  // LATIN SMALL LETTER C
-            return 'C';
+            return 'K';
         case   100:  // LATIN SMALL LETTER D
             return 'D';
         case   102:  // LATIN SMALL LETTER F
@@ -72,12 +68,8 @@ inline char normalise(uint32_t x) {
             return 'K';
         case   108:  // LATIN SMALL LETTER L
             return 'L';
-        case   109:  // LATIN SMALL LETTER M
-            return 'M';
-        case   110:  // LATIN SMALL LETTER N
-            return 'N';
         case   111:  // LATIN SMALL LETTER O
-            return 'O';
+            return 'V';
         case   112:  // LATIN SMALL LETTER P
             return 'P';
         case   113:  // LATIN SMALL LETTER Q
@@ -107,17 +99,17 @@ inline char normalise(uint32_t x) {
         case   226:  // LATIN SMALL LETTER A WITH CIRCUMFLEX
             return 'A';
         case   231:  // LATIN SMALL LETTER C WITH CEDILLA
-            return 'C';
+            return 'K';
         case   237:  // LATIN SMALL LETTER I WITH ACUTE
             return 'I';
         case   238:  // LATIN SMALL LETTER I WITH CIRCUMFLEX
             return 'I';
         case   242:  // LATIN SMALL LETTER O WITH GRAVE
-            return 'O';
+            return 'V';
         case   243:  // LATIN SMALL LETTER O WITH ACUTE
-            return 'O';
+            return 'V';
         case   244:  // LATIN SMALL LETTER O WITH CIRCUMFLEX
-            return 'O';
+            return 'V';
         case   249:  // LATIN SMALL LETTER U WITH GRAVE
             return 'V';
         case   250:  // LATIN SMALL LETTER U WITH ACUTE
