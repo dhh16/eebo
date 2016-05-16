@@ -1,218 +1,218 @@
 0.0	Read file list
-0.1	Measure files
-	s = 2415548658
-104.9	Read files
-117.6	Pack
-119.2	Remove useless
-	s = 2415472554
+0.0	Measure files
+	s = 2393083595
+32.0	Read files
+44.9	Pack
+46.7	Remove useless
+	s = 2393007491
 	step = 4
-126.6	Form pairs
-128.1	Remove useless
-	s = 2415371082
-135.6	Sort by content
-198.1	Relabel
-	c = 58160739
-205.9	Remove useless
-	s = 2381863068
-214.5	Sort by position
+53.7	Form pairs
+55.4	Remove useless
+	s = 2392906019
+62.6	Sort by content
+130.9	Relabel
+	c = 41694297
+138.8	Remove useless
+	s = 2371350326
+147.8	Sort by position
 	step = 8
-274.2	Form pairs
-275.5	Remove useless
-	s = 2256455631
-283.9	Sort by content
-344.3	Relabel
-	c = 249571834
-356.3	Remove useless
-	s = 736668255
-363.6	Sort by position
+222.0	Form pairs
+223.7	Remove useless
+	s = 2288120933
+231.7	Sort by content
+297.6	Relabel
+	c = 250140538
+309.5	Remove useless
+	s = 742207761
+316.6	Sort by position
 	step = 16
-386.5	Form pairs
-387.4	Remove useless
-	s = 370175165
-389.2	Sort by content
-400.6	Relabel
-	c = 156481016
-402.3	Remove useless
-	s = 352398635
-403.8	Sort by position
+337.1	Form pairs
+337.9	Remove useless
+	s = 367186907
+340.4	Sort by content
+350.5	Relabel
+	c = 154951329
+352.4	Remove useless
+	s = 348817361
+354.1	Sort by position
 	step = 32
-413.6	Form pairs
-414.0	Remove useless
-	s = 252285937
-415.0	Sort by content
-422.0	Relabel
-	c = 116380403
-423.0	Remove useless
-	s = 249761734
-424.0	Sort by position
+365.7	Form pairs
+366.1	Remove useless
+	s = 249687097
+367.4	Sort by content
+375.0	Relabel
+	c = 115208344
+375.9	Remove useless
+	s = 247194922
+376.6	Sort by position
 	step = 64
-434.8	Form pairs
-435.1	Remove useless
-	s = 169130160
-436.1	Sort by content
-440.7	Relabel
-	c = 80219216
-441.4	Remove useless
-	s = 168028646
-442.0	Clear garbage
-442.2	Sort fully
-444.0	Create map
-506.2	Prune dominated
+385.8	Form pairs
+386.1	Remove useless
+	s = 167439895
+387.0	Sort by content
+392.4	Relabel
+	c = 79420804
+393.0	Remove useless
+	s = 166356563
+393.7	Clear garbage
+393.9	Sort fully
+395.9	Create map
+453.5	Prune dominated
 	filename = output/raw-128.txt
-	distinct = 437484
-	elements = 970126
-554.5	Sort by position
+	distinct = 432917
+	elements = 959699
+496.8	Sort by position
 	step = 128
-581.6	Form pairs
-581.8	Remove useless
-	s = 104203982
-582.4	Sort by content
-585.8	Relabel
-	c = 50152819
-586.2	Remove useless
-	s = 103618273
-586.6	Clear garbage
-586.7	Sort fully
-588.0	Create map
-622.8	Prune dominated
+521.7	Form pairs
+522.0	Remove useless
+	s = 103210875
+522.5	Sort by content
+525.6	Relabel
+	c = 49670094
+525.9	Remove useless
+	s = 102632528
+526.2	Clear garbage
+526.3	Sort fully
+527.5	Create map
+580.9	Prune dominated
 	filename = output/raw-256.txt
-	distinct = 165798
-	elements = 351960
-648.3	Sort by position
+	distinct = 164110
+	elements = 348362
+620.9	Sort by position
 	step = 256
-662.0	Form pairs
-662.2	Remove useless
-	s = 56666989
-662.5	Sort by content
-664.2	Relabel
-	c = 27553530
-664.4	Remove useless
-	s = 56343925
-664.6	Clear garbage
-664.6	Sort fully
-665.3	Create map
-686.2	Prune dominated
+641.0	Form pairs
+641.1	Remove useless
+	s = 56141704
+641.5	Sort by content
+643.3	Relabel
+	c = 27294097
+643.5	Remove useless
+	s = 55822701
+643.7	Clear garbage
+643.8	Sort fully
+644.4	Create map
+662.0	Prune dominated
 	filename = output/raw-512.txt
-	distinct = 55249
-	elements = 114803
-704.0	Sort by position
+	distinct = 54762
+	elements = 113808
+674.5	Sort by position
 	step = 512
-714.0	Form pairs
-714.1	Remove useless
-	s = 27118347
-714.2	Sort by content
-715.1	Relabel
-	c = 13277508
-715.2	Remove useless
-	s = 26990906
-715.3	Clear garbage
-715.3	Sort fully
-715.7	Create map
-724.0	Prune dominated
+681.0	Form pairs
+681.1	Remove useless
+	s = 26857993
+681.3	Sort by content
+682.4	Relabel
+	c = 13148428
+682.5	Remove useless
+	s = 26730628
+682.6	Clear garbage
+682.7	Sort fully
+683.0	Create map
+691.1	Prune dominated
 	filename = output/raw-1024.txt
-	distinct = 15278
-	elements = 31336
-729.5	Sort by position
+	distinct = 15156
+	elements = 31088
+696.6	Sort by position
 	step = 1024
-732.8	Form pairs
-732.8	Remove useless
-	s = 11525080
-732.9	Sort by content
-733.4	Relabel
-	c = 5668844
-733.5	Remove useless
-	s = 11487556
-733.5	Clear garbage
-733.5	Sort fully
-733.7	Create map
-737.5	Prune dominated
+699.7	Form pairs
+699.7	Remove useless
+	s = 11394670
+699.8	Sort by content
+700.2	Relabel
+	c = 5604730
+700.3	Remove useless
+	s = 11357549
+700.3	Clear garbage
+700.3	Sort fully
+700.5	Create map
+703.9	Prune dominated
 	filename = output/raw-2048.txt
-	distinct = 3820
-	elements = 7779
-740.0	Sort by position
+	distinct = 3804
+	elements = 7743
+706.4	Sort by position
 	step = 2048
-741.3	Form pairs
-741.3	Remove useless
-	s = 4113316
-741.4	Sort by content
-741.6	Relabel
-	c = 2030356
-741.6	Remove useless
-	s = 4093544
-741.6	Clear garbage
-741.6	Sort fully
-741.7	Create map
-742.9	Prune dominated
+707.7	Form pairs
+707.7	Remove useless
+	s = 4039525
+707.8	Sort by content
+708.0	Relabel
+	c = 1993702
+708.0	Remove useless
+	s = 4019274
+708.0	Clear garbage
+708.0	Sort fully
+708.1	Create map
+709.6	Prune dominated
 	filename = output/raw-4096.txt
-	distinct = 855
-	elements = 1730
-743.6	Sort by position
+	distinct = 845
+	elements = 1709
+710.7	Sort by position
 	step = 4096
-744.1	Form pairs
-744.1	Remove useless
-	s = 1081996
-744.1	Sort by content
-744.2	Relabel
-	c = 535703
-744.2	Remove useless
-	s = 1074229
-744.2	Clear garbage
-744.2	Sort fully
-744.3	Create map
-744.5	Prune dominated
+711.4	Form pairs
+711.4	Remove useless
+	s = 1055070
+711.4	Sort by content
+711.5	Relabel
+	c = 523405
+711.5	Remove useless
+	s = 1049462
+711.5	Clear garbage
+711.6	Sort fully
+711.6	Create map
+711.9	Prune dominated
 	filename = output/raw-8192.txt
-	distinct = 149
-	elements = 300
-744.7	Sort by position
+	distinct = 146
+	elements = 294
+712.2	Sort by position
 	step = 8192
-744.8	Form pairs
-744.8	Remove useless
-	s = 200580
-744.8	Sort by content
-744.9	Relabel
-	c = 100290
-744.9	Remove useless
-	s = 200580
-744.9	Clear garbage
-744.9	Sort fully
-744.9	Create map
-744.9	Prune dominated
+712.3	Form pairs
+712.3	Remove useless
+	s = 195862
+712.3	Sort by content
+712.3	Relabel
+	c = 97931
+712.3	Remove useless
+	s = 195862
+712.3	Clear garbage
+712.3	Sort fully
+712.3	Create map
+712.4	Prune dominated
 	filename = output/raw-16384.txt
-	distinct = 10
-	elements = 20
-744.9	Sort by position
+	distinct = 9
+	elements = 18
+712.4	Sort by position
 	step = 16384
-745.0	Form pairs
-745.0	Remove useless
-	s = 120140
-745.0	Sort by content
-745.0	Relabel
-	c = 60070
-745.0	Remove useless
-	s = 120140
-745.0	Clear garbage
-745.0	Sort fully
-745.0	Create map
-745.0	Prune dominated
+712.4	Form pairs
+712.4	Remove useless
+	s = 118174
+712.4	Sort by content
+712.4	Relabel
+	c = 59087
+712.4	Remove useless
+	s = 118174
+712.4	Clear garbage
+712.4	Sort fully
+712.5	Create map
+712.5	Prune dominated
 	filename = output/raw-32768.txt
 	distinct = 1
 	elements = 2
-745.0	Sort by position
+712.5	Sort by position
 	step = 32768
-745.0	Form pairs
-745.0	Remove useless
-	s = 54604
-745.0	Sort by content
-745.1	Relabel
-	c = 27302
-745.1	Remove useless
-	s = 54604
-745.1	Clear garbage
-745.1	Sort fully
-745.1	Create map
-745.1	Prune dominated
+712.5	Form pairs
+712.5	Remove useless
+	s = 52638
+712.5	Sort by content
+712.5	Relabel
+	c = 26319
+712.5	Remove useless
+	s = 52638
+712.5	Clear garbage
+712.5	Sort fully
+712.5	Create map
+712.5	Prune dominated
 	filename = output/raw-65536.txt
 	distinct = 1
 	elements = 2
-745.1	Sort by position
-747.9	Done
+712.5	Sort by position
+715.1	Done
