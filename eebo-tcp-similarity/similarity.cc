@@ -14,7 +14,7 @@
 
 const char* xml_dir = "tcp-xml";
 constexpr int report_threshold = 200000000;
-constexpr int size_threshold = 100;
+constexpr int size_threshold = 50;
 
 typedef std::pair<unsigned, unsigned> pui;
 typedef std::pair<pui, pui> ppui;
