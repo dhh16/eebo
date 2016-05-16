@@ -10,5 +10,9 @@ similarity: similarity.o pugixml.o
 
 analyse: analyse.o pugixml.o
 
+similarity.o: similarity.cc char-map.h timer.h
+
+analyse.o: analyse.cc char-map.h timer.h
+
 clean:
 	rm -f analyse similarity *.o
