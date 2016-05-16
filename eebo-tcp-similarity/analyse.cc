@@ -287,12 +287,17 @@ void Analyse::find_chunk_size(int i) {
 
 
 void Analyse::count_chunk_authors(int i) {
+    int anon = 0;
     Chunk& chunk = chunks[i];
     std::unordered_set<std::string> authors;
     for (pi p : chunk.positions) {
-        authors.insert(texts[p.first].author);
+        if (texts[p.first].author.size() == 0) {
+            ++anon;
+        } else {
+            authors.insert(texts[p.first].author);
+        }
     }
-    chunk.authors = authors.size();
+    chunk.authors = authors.size() + anon;
 }
 
 
