@@ -1,0 +1,6 @@
+[submodule "eebo-tcp-similarity/utfcpp"]
+	path = eebo-tcp-similarity/utfcpp
+	url = https://github.com/nemtrif/utfcpp.git
+[submodule "eebo-tcp-similarity/pugixml"]
+	path = eebo-tcp-similarity/pugixml
+	url = https://github.com/zeux/pugixml.git

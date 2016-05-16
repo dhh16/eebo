@@ -1,0 +1,107 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700);
+
+BODY {
+    color: #000;
+    background-color: #eee;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 10px;
+    margin: 0px;
+}
+
+DIV {
+    padding: 0px;
+    margin: 0px;
+}
+
+A:link, A:visited, A:hover, A:active {
+    color: #000;
+    text-decoration: none;
+}
+
+A {
+    display: inline-block;
+    border: 1px solid #aaa;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+A:hover, A:active, .selected A {
+    color: #fff;
+    border: 1px solid #000;
+    background-color: #000;
+}
+
+.menu, .chunk {
+    margin-bottom: 10px;
+}
+
+.btn {
+    background-color: #fff;
+    margin-right: 5px;
+}
+
+.chunk {
+    background-color: #fff;
+    padding: 10px;
+}
+
+.head {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.head .sub {
+    font-weight: 400;
+    color: #888;
+}
+
+.authorline {
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+.code {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.author {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #800;
+}
+
+.title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.publ {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+.samplewrap {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 30px;
+}
+
+.sample {
+    font-size: 0.95em;
+}
+
+.before, .after {
+    color: #aaa;
+}
+
+.abbr {
+    color: #800;
+    font-weight: 700;
+    padding-left: 5px;
+    padding-right: 5px;
+}

@@ -1,0 +1,5 @@
+/build/
+/tcp-xml
+/similarity
+/analyse
+*.o
