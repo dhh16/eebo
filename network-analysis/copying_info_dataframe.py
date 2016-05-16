@@ -41,8 +41,8 @@ for i, chunk in enumerate(doc.find_all("chunk")):
         text_data[t['id']] = t
 
 cp_df = pd.DataFrame(copying_data, columns=copying_columns)
-text_df = pd.DataFrame.from_records(text_data.values())
+text_df = pd.DataFrame.from_records(text_data.values(), index='id')
 
-cp_df.to_pkl('output/copying_dataframe.pkl')
-text_df.to_pkl('output/text_dataframe.pkl')
+cp_df.to_pickle('output/copying_dataframe.pkl')
+text_df.to_pickle('output/text_dataframe.pkl')
 
