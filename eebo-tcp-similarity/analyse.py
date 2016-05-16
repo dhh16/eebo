@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import math
+import os
 import re
+import sys
 import lxml
 from lxml.builder import E
 from collections import OrderedDict
@@ -49,7 +51,7 @@ def menu(what, nfiles):
         buttons.append(E.span(c, E.a(label, href=link)))
     return E.div(cls('menu'), *buttons)
 
-def doc(title, menubar, chunks, filename):
+def doc(html_dir, title, menubar, chunks, filename):
     doc = E.html({"lang": "en"},
         E.head(
             E.title(title),
@@ -60,13 +62,13 @@ def doc(title, menubar, chunks, filename):
         E.body(menubar, *chunks)
     )
 
-    with open("html/" + filename, "w") as f:
+    with open(os.path.join(html_dir, filename), "w") as f:
         f.write("<!DOCTYPE html>\n")
         f.write(lxml.etree.tostring(doc, method="html", encoding=str))
         f.write("\n")
 
-def main():
-    results = lxml.etree.parse("output/results.xml").getroot()
+def main(html_dir, xml_file):
+    results = lxml.etree.parse(xml_file).getroot()
 
     seen = set()
 
@@ -132,14 +134,14 @@ def main():
     for k in range(nfiles):
         a = k * perfile
         b = min(a + perfile, len(chunks))
-        doc(
+        doc(html_dir,
             "EEBO TCP textual overlap {}/{}".format(k+1, nfiles),
             menu(k, nfiles),
             chunks[a:b],
             "{}.html".format(k+1)
         )
 
-    doc(
+    doc(html_dir,
         "EEBO TCP textual overlap",
         menu('index', nfiles),
         chunks2,
@@ -148,4 +150,4 @@ def main():
 
     print(len(chunks))
 
-main()
+main(sys.argv[1], sys.argv[2])

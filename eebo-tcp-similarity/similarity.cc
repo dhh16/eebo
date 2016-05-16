@@ -13,8 +13,8 @@
 #include "timer.h"
 
 const char* xml_dir = "tcp-xml";
-const char* result_dir = "output";
 constexpr int report_threshold = 200000000;
+constexpr int size_threshold = 100;
 
 typedef std::pair<unsigned, unsigned> pui;
 typedef std::pair<pui, pui> ppui;
@@ -160,10 +160,10 @@ void Text::parse(ppui* target) {
 class Similarity
 {
 public:
-    void do_all();
+    void do_all(const char* result_dir);
 
 private:
-    void report();
+    void report(const char* result_dir);
     std::vector<Text> texts;
     ppui* data;
     long long c;
@@ -173,7 +173,7 @@ private:
 };
 
 
-void Similarity::do_all() {
+void Similarity::do_all(const char* result_dir) {
     timer.log("Read file list");
     std::string id;
     while (std::cin >> id) {
@@ -273,8 +273,8 @@ void Similarity::do_all() {
         std::cout << "\ts = " << s << std::endl;
         step *= 2;
 
-        if (0 < s && s <= report_threshold) {
-            report();
+        if (0 < s && s <= report_threshold && step >= size_threshold) {
+            report(result_dir);
         }
 
         timer.log("Sort by position");
@@ -286,7 +286,7 @@ void Similarity::do_all() {
     timer.log("Done");
 }
 
-void Similarity::report() {
+void Similarity::report(const char* result_dir) {
     timer.log("Clear garbage");
     #pragma omp parallel for
     for (long long i = 0; i < s; ++i) {
@@ -358,8 +358,13 @@ void Similarity::report() {
 }
 
 
-int main() {
+int main(int argc, const char** argv) {
     std::ios_base::sync_with_stdio(0);
+    if (argc != 2) {
+        std::cerr << "usage: similarity RESULT_DIR < EEBO_LIST" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    const char* result_dir = argv[1];
     Similarity sim;
-    sim.do_all();
+    sim.do_all(result_dir);
 }

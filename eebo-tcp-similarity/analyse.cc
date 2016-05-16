@@ -129,7 +129,7 @@ struct Chunk
 struct Analyse
 {
 public:
-    void process(const char* filename);
+    void process(const char* output_file, const char* filename);
 
 private:
     void find_chunk_size(int i);
@@ -142,7 +142,7 @@ private:
     Timer timer;
 };
 
-void Analyse::process(const char* filename) {
+void Analyse::process(const char* output_file, const char* filename) {
     timer.log("Read file list");
     std::string id;
     while (std::cin >> id) {
@@ -248,7 +248,7 @@ void Analyse::process(const char* filename) {
         }
         ++c;
     }
-    xresults.save_file("output/results.xml");
+    xresults.save_file(output_file);
     std::cout << "\tc = " << c << std::endl;
     timer.log("Done");
 }
@@ -298,9 +298,10 @@ void Analyse::count_chunk_authors(int i) {
 
 int main(int argc, const char** argv) {
     std::ios_base::sync_with_stdio(0);
-
-    for (int i = 1; i < argc; ++i) {
-        Analyse analyse;
-        analyse.process(argv[i]);
+    if (argc != 3) {
+        std::cerr << "usage: similarity OUTPUT_XML INPUT_FILE < EEBO_LIST" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
+    Analyse analyse;
+    analyse.process(argv[1], argv[2]);
 }
