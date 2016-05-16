@@ -296,6 +296,7 @@ void Analyse::find_chunk_size(int i) {
 
 void Analyse::verify_chunk(int i) {
     Chunk& chunk = chunks[i];
+    chunk.good = true;
     if (author_limit) {
         chunk.good = false;
         for (pi p : chunk.positions) {
@@ -304,7 +305,8 @@ void Analyse::verify_chunk(int i) {
                 chunk.good = true;
             }
         }
-    } else {
+    }
+    if (chunk.good) {
         int anon = 0;
         std::unordered_set<std::string> authors;
         for (pi p : chunk.positions) {
