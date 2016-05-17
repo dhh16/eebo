@@ -20,7 +20,7 @@ with open('output-metadata/metadata.tsv') as f:
     with open('output-metadata/metadata.csv', 'w', newline='') as tf:
         writer = csv.writer(tf)
         writer.writerow([
-            'ID', 'Title', 'Author', 'Date', 'Extent', 'Pages', 'Publisher', 'Pub name', 'Pub place', 'Pub date'
+            'TCP', 'Title', 'Author', 'Date', 'Extent', 'Pages', 'Publisher', 'Pub name', 'Pub place', 'Pub date'
         ])
         for l in f:
             row = l[:-1].split('\t')
