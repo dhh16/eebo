@@ -15,6 +15,10 @@ Setup
 
 ## How-to
 
-To construct the network of copying/copied text, run:
+To construct the network of copying/copied **text**, run:
 
     python copying_text_network.py
+
+To construct the network of copying/copied **authors**, run:
+
+    python copying_author_network.py

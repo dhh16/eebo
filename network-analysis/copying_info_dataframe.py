@@ -23,26 +23,38 @@ def extract_chunk_info(chunk_node):
     return [extract_text_info(n) for n in text_nodes]
 
 
-PATH = "/cs/home/hxiao/code/eebo/eebo-tcp-similarity/output/results.xml"
+def main():
+    import argparse
+    from util import makedir
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path')
+    parser.add_argument('--output_dir')
 
-doc = load_doc(PATH)
+    args = parser.parse_args()
 
-copying_data = []
-copying_columns = ('id', 'length', 
-                   'doc_ids')
-text_data = {}
+    makedir(args.output_dir)
 
-for i, chunk in enumerate(doc.find_all("chunk")):
-    texts = extract_chunk_info(chunk)
-    copying_data.append(
-        (i, int(chunk['length']), [t['id'] for t in texts])
-        )
-    for t in texts:
-        text_data[t['id']] = t
+    doc = load_doc(args.path)
 
-cp_df = pd.DataFrame(copying_data, columns=copying_columns)
-text_df = pd.DataFrame.from_records(text_data.values(), index='id')
+    copying_data = []
+    copying_columns = ('id', 'length', 
+                       'doc_ids')
+    text_data = {}
 
-cp_df.to_pickle('output/copying_dataframe.pkl')
-text_df.to_pickle('output/text_dataframe.pkl')
+    for i, chunk in enumerate(doc.find_all("chunk")):
+        texts = extract_chunk_info(chunk)
+        copying_data.append(
+            (i, int(chunk['length']), [t['id'] for t in texts])
+            )
+        for t in texts:
+            text_data[t['id']] = t
 
+    cp_df = pd.DataFrame(copying_data, columns=copying_columns)
+    text_df = pd.DataFrame.from_records(text_data.values(), index='id')
+
+    cp_df.to_pickle('{}/copying_dataframe.pkl'.format(args.output_dir))
+    text_df.to_pickle('{}/text_dataframe.pkl'.format(args.output_dir))
+
+
+if __name__ == "__main__":
+    main()
