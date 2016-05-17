@@ -1,0 +1,13 @@
+#!/bin/sh
+
+dir="/srv/data/eebo-tcp/processed_data"
+t=$(echo eebo-tcp "$@" | tr ' ' '-')
+if [ -z "$t" ]; then
+    exit 1
+fi
+
+mkdir "$dir/$t" || exit 1
+util/list-eebo-tcp-txt "$@" | xargs -I'{}' cp '{}' "$dir/$t/" || exit 1
+cd "$dir" || exit 1
+zip -r "$t.zip" "$t/" || exit 1
+rm -rf "$t"
