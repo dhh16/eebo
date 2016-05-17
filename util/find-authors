@@ -4,4 +4,4 @@ export LANG=C
 metadata=eebo-tcp-similarity/output-metadata/metadata.tsv
 dir=/srv/data/eebo-tcp/processed_data
 cut -f3 $metadata | tr ';' '\n' | sed 's,^ *,,' | grep -v '^$' | sort | uniq -c > $dir/eebo-tcp-unique-authors.txt
-cut -f3 $metadata | tr ';' '\n' | sed 's,^ *,,' | grep -v '^$' | perl -ple 's/\b([A-Z])\./$1/g; s/([^,.()]+(,[^,.()]+)?).*/$1/; s/, (fl|b|d|)$//; s/^([A-Z]( [A-Z])*),.*/$1/' | sort | uniq -c | sort > $dir/eebo-tcp-short-authors.txt
+cut -f3 $metadata | tr ';' '\n' | sed 's,^ *,,' | grep -v '^$' | perl -ple 's/\b([A-Z])\./$1/g; s/([^,.()]+(,[^,.()]+)?).*/$1/; s/, (fl|b|d|)$//; s/^([A-Z]( [A-Z])*),.*/$1/' | sort | uniq -c | sort -r > $dir/eebo-tcp-top-authors.txt
