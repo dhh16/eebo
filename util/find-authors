@@ -1,5 +1,6 @@
 #!/bin/sh
 
+export LANG=C
 metadata=eebo-tcp-similarity/output-metadata/metadata.tsv
 dir=/srv/data/eebo-tcp/processed_data
 cut -f3 $metadata | tr ';' '\n' | sed 's,^ *,,' | grep -v '^$' | sort | uniq -c > $dir/eebo-tcp-unique-authors.txt
