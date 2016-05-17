@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd eebo-tcp || exit 1
+./list-eebo-tcp "$@" | sed 's,\(.*\),/srv/data/eebo-tcp/processed_data/txt/\1.txt,'
+
