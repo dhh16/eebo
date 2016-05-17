@@ -1,0 +1,4 @@
+#!/bin/sh
+
+t=$(echo "$@" | tr ' ' '-')
+util/list-eebo-tcp-txt "$@" | xargs cat > "/srv/data/eebo-tcp/processed_data/eebo-tcp-$t.txt"

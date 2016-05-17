@@ -1,0 +1,8 @@
+#!/bin/sh
+
+dir=/srv/data/eebo-tcp/processed_data/txt
+mkdir -p $dir
+for a in $(cd eebo-tcp && ./list-eebo-tcp); do
+    xml/xml-plaintext-skip TEI/text desc /srv/data/eebo-tcp/data/$a/$a.xml > $dir/$a.txt
+done
+
