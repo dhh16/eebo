@@ -24,17 +24,11 @@ struct Text : pugi::xml_tree_walker
     virtual bool for_each(pugi::xml_node& node);
 
     std::string id;
-    std::string content;
-    std::string normalised;
-    std::vector<int> index;
-    std::vector<int> positions;
-    char walk_prev;
-    int depth_seen;
     std::string title;
     std::string author;
     std::string date;
+    std::string extent;
     std::string publ;
-    std::string skipped{"desc"};
 };
 
 std::string Text::get_full_name() const {
@@ -60,32 +54,15 @@ void Text::parse() {
     }
     pugi::xml_node tei = doc.child("TEI");
     pugi::xml_node head = tei.child("teiHeader");
-    title = head.child("fileDesc").child("titleStmt").child_value("title");
-    author = head.child("fileDesc").child("titleStmt").child_value("author");
-    date = head.child("fileDesc").child("editionStmt").child("edition").child_value("date");
-    pugi::xml_node publStmt = head.child("fileDesc").child("sourceDesc").child("biblFull").child("publicationStmt");
-    bool add_ws = false;
-    for (auto n : publStmt) {
-        if (n.type() == pugi::node_element) {
-            if (add_ws && publ.size()) {
-                publ += ' ';
-            }
-            publ += n.child_value();
-            add_ws = false;
-        } else {
-            add_ws = true;
-        }
-    }
-
-    pugi::xml_node text = tei.child("text");
-    if (!text) {     
-        fail("could not find TEI/text");
-    }
-
-    depth_seen = -1;
-    walk_prev = 0;
-    text.traverse(*this);
-    index.push_back(content.size());
+    pugi::xml_node fileDesc = head.child("fileDesc");
+    pugi::xml_node titleStmt = fileDesc.child("titleStmt");
+    pugi::xml_node biblFull = fileDesc.child("sourceDesc").child("biblFull");
+    title = titleStmt.child_value("title");
+    author = titleStmt.child_value("author");
+    date = fileDesc.child("editionStmt").child("edition").child_value("date");
+    extent = biblFull.child_value("extent");
+    pugi::xml_node publStmt = biblFull.child("publicationStmt");
+    publStmt.traverse(*this);
 }
 
 void Text::dump() {
@@ -93,31 +70,15 @@ void Text::dump() {
     std::cout << author << "\n";
     std::cout << date << "\n";
     std::cout << publ << "\n";
+    std::cout << extent << "\n";
     std::cout << "\n";
 }
 
 bool Text::for_each(pugi::xml_node& node) {
     using namespace pugi;
-    if (depth_seen != -1 && depth() <= depth_seen) {
-        depth_seen = -1;
-    }
-    if (depth_seen == -1 && node.type() == node_element && skipped == node.name()) {
-        depth_seen = depth();
-    }
-    if (depth_seen == -1 && node.type() == node_pcdata) {
+    if (node.type() == node_pcdata) {
         const char* p = node.value();
-        const char* e = p + std::strlen(p);
-        while (p != e) {
-            const char* q = p;
-            uint32_t v = utf8::next(p, e);
-            char c = normalise(v);
-            if (c && c != walk_prev) {
-                index.push_back(content.size());
-                normalised += c;
-                walk_prev = c;
-            }
-            content.append(q, p);
-        }
+        publ += p;
     }
     return true;
 }
