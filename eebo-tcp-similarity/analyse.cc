@@ -129,8 +129,8 @@ struct Chunk
 struct Analyse
 {
 public:
-    Analyse(const char* output_file_, const char* filename_, const char* author_limit_=NULL)
-        : output_file{output_file_}, filename{filename_}, author_limit{author_limit_}
+    Analyse(const char* output_file_, const char* filename_, const char* author_limit_, bool sametext_)
+        : output_file{output_file_}, filename{filename_}, author_limit{author_limit_}, sametext{sametext_}
     {}
     void process();
 
@@ -143,6 +143,7 @@ private:
     const char* output_file;
     const char* filename;
     const char* author_limit;
+    bool sametext;
     std::vector<Text> texts;
     std::vector<Chunk> chunks;
     Timer timer;
@@ -170,6 +171,7 @@ void Analyse::process() {
         }
         assert(size >= 2);
         Chunk chunk;
+        std::unordered_set<int> text_set;
         for (int i = 0; i < size; ++i) {
             int t;
             int pos;
@@ -179,8 +181,21 @@ void Analyse::process() {
             }
             assert(0 <= t);
             assert(t < n);
-            texts[t].positions.push_back(pos);
             chunk.positions.push_back(pi{t, pos});
+            text_set.insert(t);
+        }
+        bool good;
+        if (sametext) {
+            good = (text_set.size() < size);
+        } else {
+            good = (text_set.size() > 1);
+        }
+        if (!good) {
+            continue;
+        }
+        for (int i = 0; i < chunk.positions.size(); ++i) {
+            pi p = chunk.positions[i];
+            texts[p.first].positions.push_back(p.second);
         }
         chunks.push_back(chunk);
     }
@@ -297,6 +312,9 @@ void Analyse::find_chunk_size(int i) {
 void Analyse::verify_chunk(int i) {
     Chunk& chunk = chunks[i];
     chunk.good = true;
+    if (sametext) {
+        return;
+    }
     if (author_limit) {
         chunk.good = false;
         for (pi p : chunk.positions) {
@@ -324,12 +342,20 @@ void Analyse::verify_chunk(int i) {
 int main(int argc, const char** argv) {
     std::ios_base::sync_with_stdio(0);
     if (argc < 3) {
-        std::cerr << "usage: similarity OUTPUT_XML INPUT_FILE [AUTHOR] < EEBO_LIST" << std::endl;
+        std::cerr << "usage: similarity OUTPUT_XML INPUT_FILE [AUTHOR|--same-text] < EEBO_LIST" << std::endl;
         std::exit(EXIT_FAILURE);
     }
     const char* output_file = argv[1];
     const char* filename = argv[2];
-    const char* author_limit = argc < 3 ? NULL : argv[3];
-    Analyse analyse(output_file, filename, author_limit);
+    const char* author_limit = NULL;
+    bool sametext = false;
+    if (argc > 3) {
+        if (!strcmp(argv[3], "--same-text")) {
+            sametext = true;
+        } else {
+            author_limit = argv[3];
+        }
+    }
+    Analyse analyse(output_file, filename, author_limit, sametext);
     analyse.process();
 }
