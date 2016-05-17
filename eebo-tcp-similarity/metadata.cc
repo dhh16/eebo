@@ -76,10 +76,22 @@ void Text::parse() {
     pugi::xml_node tei = doc.child("TEI");
     pugi::xml_node head = tei.child("teiHeader");
     pugi::xml_node fileDesc = head.child("fileDesc");
-    pugi::xml_node titleStmt = fileDesc.child("titleStmt");
     pugi::xml_node biblFull = fileDesc.child("sourceDesc").child("biblFull");
-    title = titleStmt.child_value("title");
-    author = titleStmt.child_value("author");
+    for (auto node : biblFull.child("titleStmt").children()) {
+        if (node.type() == pugi::node_element) {
+            if (!strcmp(node.name(), "title")) {
+                if (title.size()) {
+                    title += "; ";
+                }
+                title += node.child_value();
+            } else if (!strcmp(node.name(), "author")) {
+                if (author.size()) {
+                    author += "; ";
+                }
+                author += node.child_value();
+            }
+        }
+    }
     date = fileDesc.child("editionStmt").child("edition").child_value("date");
     extent = biblFull.child_value("extent");
     pugi::xml_node publStmt = biblFull.child("publicationStmt");
