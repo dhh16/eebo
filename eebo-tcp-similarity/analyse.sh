@@ -1,4 +1,3 @@
 #!/bin/sh
 
-./analyse output/results.xml output/raw-1024.txt < eebo-tcp.txt
-./analyse.py html output/results.xml
+exec ./analyse-one.sh eebo-tcp.txt output html 1024
