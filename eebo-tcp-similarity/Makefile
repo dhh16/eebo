@@ -16,7 +16,7 @@ similarity.o: similarity.cc char-map.h parser.h timer.h
 
 analyse.o: analyse.cc char-map.h parser.h timer.h
 
-metadata.o: metadata.cc
+metadata.o: metadata.cc char-map.h parser.h
 
 clean:
 	rm -f analyse similarity *.o
