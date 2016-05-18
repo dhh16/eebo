@@ -1,0 +1,218 @@
+0.0	Read file list
+0.0	Measure files
+	s = 2392923816
+304.5	Read files
+318.0	Pack
+319.3	Remove useless
+	s = 2392847712
+	step = 4
+326.9	Form pairs
+328.3	Remove useless
+	s = 2392746240
+336.2	Sort by content
+399.3	Relabel
+	c = 40769184
+407.4	Remove useless
+	s = 2372986796
+416.5	Sort by position
+	step = 8
+481.0	Form pairs
+482.4	Remove useless
+	s = 2293959076
+491.3	Sort by content
+565.4	Relabel
+	c = 250332076
+577.2	Remove useless
+	s = 742964274
+584.7	Sort by position
+	step = 16
+607.1	Form pairs
+607.9	Remove useless
+	s = 367562431
+609.9	Sort by content
+620.4	Relabel
+	c = 155086575
+622.1	Remove useless
+	s = 349155157
+623.2	Sort by position
+	step = 32
+633.3	Form pairs
+633.7	Remove useless
+	s = 250078216
+634.7	Sort by content
+643.9	Relabel
+	c = 115379180
+644.9	Remove useless
+	s = 247584935
+645.6	Sort by position
+	step = 64
+653.0	Form pairs
+653.3	Remove useless
+	s = 167836972
+653.9	Sort by content
+658.8	Relabel
+	c = 79602197
+659.4	Remove useless
+	s = 166754212
+660.1	Clear garbage
+660.3	Sort fully
+662.4	Create map
+743.5	Prune dominated
+	filename = output/raw-128.txt
+	distinct = 433105
+	elements = 960392
+798.0	Sort by position
+	step = 128
+825.7	Form pairs
+825.9	Remove useless
+	s = 103542561
+826.4	Sort by content
+830.2	Relabel
+	c = 49823981
+830.6	Remove useless
+	s = 102962411
+831.0	Clear garbage
+831.1	Sort fully
+832.4	Create map
+869.3	Prune dominated
+	filename = output/raw-256.txt
+	distinct = 164436
+	elements = 349115
+901.2	Sort by position
+	step = 256
+918.2	Form pairs
+918.3	Remove useless
+	s = 56342790
+918.6	Sort by content
+920.3	Relabel
+	c = 27388438
+920.6	Remove useless
+	s = 56022070
+920.7	Clear garbage
+920.8	Sort fully
+921.4	Create map
+939.6	Prune dominated
+	filename = output/raw-512.txt
+	distinct = 54960
+	elements = 114237
+953.8	Sort by position
+	step = 512
+960.9	Form pairs
+961.0	Remove useless
+	s = 26947836
+961.1	Sort by content
+961.9	Relabel
+	c = 13191246
+962.0	Remove useless
+	s = 26820603
+962.1	Clear garbage
+962.1	Sort fully
+962.4	Create map
+970.9	Prune dominated
+	filename = output/raw-1024.txt
+	distinct = 15228
+	elements = 31240
+977.3	Sort by position
+	step = 1024
+980.7	Form pairs
+980.7	Remove useless
+	s = 11432236
+980.8	Sort by content
+981.2	Relabel
+	c = 5622667
+981.3	Remove useless
+	s = 11395112
+981.3	Clear garbage
+981.3	Sort fully
+981.5	Create map
+984.9	Prune dominated
+	filename = output/raw-2048.txt
+	distinct = 3816
+	elements = 7769
+987.2	Sort by position
+	step = 2048
+988.5	Form pairs
+988.5	Remove useless
+	s = 4050215
+988.5	Sort by content
+988.7	Relabel
+	c = 1998971
+988.7	Remove useless
+	s = 4029810
+988.8	Clear garbage
+988.8	Sort fully
+988.8	Create map
+990.0	Prune dominated
+	filename = output/raw-4096.txt
+	distinct = 850
+	elements = 1719
+990.9	Sort by position
+	step = 4096
+991.5	Form pairs
+991.5	Remove useless
+	s = 1055788
+991.5	Sort by content
+991.6	Relabel
+	c = 523764
+991.6	Remove useless
+	s = 1050180
+991.6	Clear garbage
+991.6	Sort fully
+991.6	Create map
+991.9	Prune dominated
+	filename = output/raw-8192.txt
+	distinct = 147
+	elements = 296
+992.1	Sort by position
+	step = 8192
+992.3	Form pairs
+992.3	Remove useless
+	s = 195838
+992.3	Sort by content
+992.3	Relabel
+	c = 97919
+992.3	Remove useless
+	s = 195838
+992.3	Clear garbage
+992.3	Sort fully
+992.3	Create map
+992.4	Prune dominated
+	filename = output/raw-16384.txt
+	distinct = 9
+	elements = 18
+992.4	Sort by position
+	step = 16384
+992.4	Form pairs
+992.4	Remove useless
+	s = 118170
+992.4	Sort by content
+992.4	Relabel
+	c = 59085
+992.4	Remove useless
+	s = 118170
+992.4	Clear garbage
+992.4	Sort fully
+992.4	Create map
+992.4	Prune dominated
+	filename = output/raw-32768.txt
+	distinct = 1
+	elements = 2
+992.4	Sort by position
+	step = 32768
+992.5	Form pairs
+992.5	Remove useless
+	s = 52634
+992.5	Sort by content
+992.5	Relabel
+	c = 26317
+992.5	Remove useless
+	s = 52634
+992.5	Clear garbage
+992.5	Sort fully
+992.5	Create map
+992.5	Prune dominated
+	filename = output/raw-65536.txt
+	distinct = 1
+	elements = 2
+992.5	Sort by position
+994.4	Done
