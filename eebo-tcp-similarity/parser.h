@@ -163,7 +163,7 @@ struct Metadata : pugi::xml_tree_walker
         for (auto node : biblFull.child("titleStmt").children()) {
             if (node.type() == pugi::node_element) {
                 if (!strcmp(node.name(), "title")) {
-                    titles.push_back(node.child_value());
+                    titles.push_back(trimmed(node.child_value()));
                 } else if (!strcmp(node.name(), "author")) {
                     long_authors.push_back(trimmed(node.child_value()));
                 }
