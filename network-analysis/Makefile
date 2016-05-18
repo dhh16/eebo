@@ -17,7 +17,7 @@ author_network:
 	ssh ${host} chmod a+r ${host_dir}/${anc}
 
 d3_civil_war:
-	ssh ${host} rm -rf ${host_dir}/${cv}
-	scp -r html/ ${host}:${host_dir}/${cv}
-	scp data/${cv}/graph.json ${host}:${host_dir}/${cv}
-	${ssh} chmod -R a+rx ${host_dir}/${cv}
+	rm -rf ${host_dir}/${cv}
+	cp -r html/ ${host_dir}/${cv}
+	cp data/${cv}/graph.json ${host_dir}/${cv}
+	chmod -R a+rx ${host_dir}/${cv}
