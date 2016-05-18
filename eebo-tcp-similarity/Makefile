@@ -14,7 +14,7 @@ metadata: metadata.o pugixml.o
 
 similarity.o: similarity.cc char-map.h timer.h
 
-analyse.o: analyse.cc char-map.h timer.h
+analyse.o: analyse.cc char-map.h parser.h timer.h
 
 metadata.o: metadata.cc
 

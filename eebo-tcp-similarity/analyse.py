@@ -67,6 +67,38 @@ def doc(html_dir, title, menubar, chunks, filename):
         f.write(lxml.etree.tostring(doc, method="html", encoding=str))
         f.write("\n")
 
+def get_text(text, long):
+    code = text.attrib["code"]
+    r = [
+        E.span(cls("code"), E.a(code, href="https://github.com/textcreationpartnership/" + code)),
+    ]
+    authors = text.attrib["author"].split("; ")
+    longauthors = text.attrib["longauthor"].split("; ")
+    if authors == [""]:
+        r.append(E.span(cls("author unknown"), 'unknown?'))
+    else:
+        for a in authors:
+            r.append(' ')
+            r.append(E.span(cls("author"), a))
+    for a in longauthors:
+        if a not in authors:
+            r.append(' ')
+            r.append(E.span(cls("longauthor"), a))
+    rr = [
+        E.div(cls("authorline"), *r),
+        E.div(cls("title"), text.attrib["title"]),
+        E.div(cls("publ"), text.attrib["publ"]),
+    ]
+    if long:
+        rr.append(E.div(cls("samplewrap"),
+            E.div(cls("sample"),
+                before(fixtext(text.find("before").text)),
+                content(fixtext(text.find("content").text)),
+                after(fixtext(text.find("after").text)),
+            )
+        ))
+    return E.div(cls("text"), *rr)
+
 def main(html_dir, xml_file):
     results = lxml.etree.parse(xml_file).getroot()
 
@@ -85,31 +117,8 @@ def main(html_dir, xml_file):
         texts = []
         texts2 = []
         for text in chunk:
-            code = text.attrib["code"]
-            author = text.attrib["author"]
-            texts.append(E.div(cls("text"),
-                E.div(cls("authorline"),
-                    E.span(cls("code"), E.a(code, href="https://github.com/textcreationpartnership/" + code)),
-                    E.span(cls("author unknown"), 'unknown?') if author == '' else E.div(cls("author"), author),
-                ),
-                E.div(cls("title"), text.attrib["title"]),
-                E.div(cls("publ"), text.attrib["publ"]),
-                E.div(cls("samplewrap"),
-                    E.div(cls("sample"),
-                        before(fixtext(text.find("before").text)),
-                        content(fixtext(text.find("content").text)),
-                        after(fixtext(text.find("after").text)),
-                    )
-                )
-            ))
-            texts2.append(E.div(cls("text"),
-                E.div(cls("authorline"),
-                    E.span(cls("code"), E.a(code, href="https://github.com/textcreationpartnership/" + code)),
-                    E.span(cls("author unknown"), 'unknown?') if author == '' else E.div(cls("author"), author),
-                ),
-                E.div(cls("title"), text.attrib["title"]),
-                E.div(cls("publ"), text.attrib["publ"]),
-            ))
+            texts.append(get_text(text, True))
+            texts2.append(get_text(text, False))
         id = "r{}".format(i)
         filename = math.ceil(i / perfile)
         chunks.append(E.div(cls("chunk detail"), {"id": id},

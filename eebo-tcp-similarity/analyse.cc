@@ -6,9 +6,11 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 #include "pugixml.hpp"
 #include "utf8.h"
 #include "char-map.h"
+#include "parser.h"
 #include "timer.h"
 
 const char* xml_dir = "tcp-xml";
@@ -32,11 +34,8 @@ struct Text : pugi::xml_tree_walker
     std::vector<int> positions;
     char walk_prev;
     int depth_seen;
-    std::string title;
-    std::string author;
-    std::string date;
-    std::string publ;
     std::string skipped{"desc"};
+    Metadata metadata;
 };
 
 std::string Text::get_full_name() const {
@@ -60,25 +59,9 @@ void Text::parse() {
         fail(result.description());
         return;
     }
-    pugi::xml_node tei = doc.child("TEI");
-    pugi::xml_node head = tei.child("teiHeader");
-    title = head.child("fileDesc").child("titleStmt").child_value("title");
-    author = head.child("fileDesc").child("titleStmt").child_value("author");
-    date = head.child("fileDesc").child("editionStmt").child("edition").child_value("date");
-    pugi::xml_node publStmt = head.child("fileDesc").child("sourceDesc").child("biblFull").child("publicationStmt");
-    bool add_ws = false;
-    for (auto n : publStmt) {
-        if (n.type() == pugi::node_element) {
-            if (add_ws && publ.size()) {
-                publ += ' ';
-            }
-            publ += n.child_value();
-            add_ws = false;
-        } else {
-            add_ws = true;
-        }
-    }
+    metadata.parse(doc);
 
+    pugi::xml_node tei = doc.child("TEI");
     pugi::xml_node text = tei.child("text");
     if (!text) {     
         fail("could not find TEI/text");
@@ -244,10 +227,11 @@ void Analyse::process() {
             const Text& text = texts[p.first];
             const int pos = p.second;
             xtext.append_attribute("code") = text.id.c_str();
-            xtext.append_attribute("author") = text.author.c_str();
-            xtext.append_attribute("title") = text.title.c_str();
-            xtext.append_attribute("date") = text.date.c_str();
-            xtext.append_attribute("publ") = text.publ.c_str();
+            xtext.append_attribute("author") = text.metadata.get_author().c_str();
+            xtext.append_attribute("longauthor") = text.metadata.get_long_author().c_str();
+            xtext.append_attribute("title") = text.metadata.get_title().c_str();
+            xtext.append_attribute("date") = text.metadata.date.c_str();
+            xtext.append_attribute("publ") = text.metadata.publ.c_str();
             xtext.append_attribute("position") = pos;
             pugi::xml_node xb = xtext.append_child("before");
             pugi::xml_node xc = xtext.append_child("content");
@@ -318,23 +302,24 @@ void Analyse::verify_chunk(int i) {
     if (author_limit) {
         chunk.good = false;
         for (pi p : chunk.positions) {
-            auto hit = texts[p.first].author.find(author_limit);
-            if (hit != std::string::npos) {
+            if (texts[p.first].metadata.has_author(author_limit)) {
                 chunk.good = true;
             }
         }
     }
     if (chunk.good) {
-        int anon = 0;
-        std::unordered_set<std::string> authors;
+        std::unordered_map<std::string, int> author_count;
         for (pi p : chunk.positions) {
-            if (texts[p.first].author.size() == 0) {
-                ++anon;
-            } else {
-                authors.insert(texts[p.first].author);
+            const auto& authors = texts[p.first].metadata.authors;
+            for (const auto& a : authors) {
+                ++author_count[a];
             }
         }
-        chunk.good = (authors.size() + anon > 1);
+        for (const auto& p : author_count) {
+            if (p.second >= chunk.positions.size()) {
+                chunk.good = false;
+            }
+        }
     }
 }
 
