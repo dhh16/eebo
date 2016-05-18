@@ -1,18 +1,10 @@
-#include <cassert>
 #include <climits>
-#include <cstring>
 #include <algorithm>
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
 #include <unordered_map>
-#include "pugixml.hpp"
-#include "utf8.h"
-#include "char-map.h"
+#include "parser.h"
 #include "timer.h"
 
-const char* xml_dir = "tcp-xml";
 constexpr int report_threshold = 200000000;
 constexpr int size_threshold = 50;
 
@@ -65,96 +57,49 @@ void mysort(ppui* data, long long n, Cmp cmp) {
 }
 
 
-struct Walker : pugi::xml_tree_walker
+struct MyContent : Content
 {
-    Walker(ppui* target_, int t_) : target{target_}, t{t_}, prev{0}, i{0}, depth_seen{-1}
-    {}
+    MyContent(ppui* target_, int t_) : target{target_}, t{t_}, i{0} {}
 
-    virtual bool for_each(pugi::xml_node& node) {
-        using namespace pugi;
-        if (depth_seen != -1 && depth() <= depth_seen) {
-            depth_seen = -1;
+    virtual void feed_normalised(char c) final {
+        if (target) {
+            target[i].first.first = 0;
+            target[i].first.second = c;
+            target[i].second.first = t;
+            target[i].second.second = i;
         }
-        if (depth_seen == -1 && node.type() == node_element && skipped == node.name()) {
-            depth_seen = depth();
-        }
-        if (depth_seen == -1 && node.type() == node_pcdata) {
-            const char* p = node.value();
-            const char* e = p + std::strlen(p);
-            while (p != e) {
-                uint32_t v = utf8::next(p, e);
-                char c = normalise(v);
-                if (c && c != prev) {
-                    if (target) {
-                        target[i].first.first = 0;
-                        target[i].first.second = c;
-                        target[i].second.first = t;
-                        target[i].second.second = i;
-                    }
-                    ++i;
-                    prev = c;
-                }
-            }
-        }
-        return true;
+        ++i;
     }
+
+    virtual void feed(const char* q, const char* p) final {}
 
     ppui* const target;
     const int t;
-    char prev;
     int i;
-    int depth_seen;
-    std::string skipped{"desc"};
 };
 
 
-class Text
+class Text : TextBase
 {
 public:
-    Text(std::string id_, int t) : id{id_}, t{t}, length{-1} {}
-    void parse(ppui* target);
-    std::string get_full_name() const;
-    void fail(std::string msg);
+    Text(std::string id_, int t) : TextBase(id_), t{t}, length{-1} {}
+
+    void parse(ppui* target) {
+        pugi::xml_document doc;
+        parse_to(doc);
+        MyContent content(target, t);
+        content.parse(doc);
+        if (target) {
+            assert(length == content.i);
+        } else {
+            length = content.i;
+        }
+    }
 
     std::string id;
     int t;
     int length;
 };
-
-std::string Text::get_full_name() const {
-    std::string fullname{xml_dir};
-    fullname += "/";
-    fullname += id;
-    fullname += ".xml";
-    return fullname;
-}
-
-void Text::fail(std::string msg) {
-    std::cerr << get_full_name() << ": " << msg << std::endl;
-    std::exit(EXIT_FAILURE);
-}
-
-void Text::parse(ppui* target) {
-    unsigned opt = pugi::parse_default | pugi::parse_ws_pcdata;
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(get_full_name().c_str(), opt, pugi::encoding_utf8);
-    if (!result) {
-        fail(result.description());
-        return;
-    }
-    pugi::xml_node tei = doc.child("TEI");
-    pugi::xml_node text = tei.child("text");
-    if (!text) {     
-        fail("could not find TEI/text");
-    }
-    Walker w(target, t);
-    text.traverse(w);
-    if (target) {
-        assert(length == w.i);
-    } else {
-        length = w.i;
-    }
-}
 
 
 class Similarity

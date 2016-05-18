@@ -1,104 +1,47 @@
-#include <cassert>
-#include <cstring>
 #include <algorithm>
 #include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include "pugixml.hpp"
-#include "utf8.h"
-#include "char-map.h"
 #include "parser.h"
 #include "timer.h"
 
-const char* xml_dir = "tcp-xml";
 const int context = 500;
 
 typedef std::pair<int, int> pi;
 
 
-struct Text : pugi::xml_tree_walker
+struct MyContent : Content
 {
-    Text(std::string id_, int t) : id{id_} {}
-    std::string get_full_name() const;
-    void fail(std::string msg);
-    void parse();
-    virtual bool for_each(pugi::xml_node& node);
+    virtual void feed_normalised(char c) final {
+        index.push_back(content.size());
+        normalised += c;
+    }
 
-    std::string id;
+    virtual void feed(const char* q, const char* p) final {
+        content.append(q, p);
+    }
+
     std::string content;
     std::string normalised;
     std::vector<int> index;
-    std::vector<int> positions;
-    char walk_prev;
-    int depth_seen;
-    std::string skipped{"desc"};
-    Metadata metadata;
 };
 
-std::string Text::get_full_name() const {
-    std::string fullname{xml_dir};
-    fullname += "/";
-    fullname += id;
-    fullname += ".xml";
-    return fullname;
-}
+struct Text : TextBase
+{
+    Text(std::string id_, int t) : TextBase(id_), relevant{false} {}
 
-void Text::fail(std::string msg) {
-    std::cerr << get_full_name() << ": " << msg << std::endl;
-    std::exit(EXIT_FAILURE);
-}
-
-void Text::parse() {
-    unsigned opt = pugi::parse_default | pugi::parse_ws_pcdata;
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(get_full_name().c_str(), opt, pugi::encoding_utf8);
-    if (!result) {
-        fail(result.description());
-        return;
-    }
-    metadata.parse(doc);
-
-    pugi::xml_node tei = doc.child("TEI");
-    pugi::xml_node text = tei.child("text");
-    if (!text) {     
-        fail("could not find TEI/text");
+    void parse() {
+        pugi::xml_document doc;
+        parse_to(doc);
+        metadata.parse(doc);
+        content.parse(doc);
+        content.index.push_back(content.content.size());
     }
 
-    depth_seen = -1;
-    walk_prev = 0;
-    text.traverse(*this);
-    index.push_back(content.size());
-}
-
-bool Text::for_each(pugi::xml_node& node) {
-    using namespace pugi;
-    if (depth_seen != -1 && depth() <= depth_seen) {
-        depth_seen = -1;
-    }
-    if (depth_seen == -1 && node.type() == node_element && skipped == node.name()) {
-        depth_seen = depth();
-    }
-    if (depth_seen == -1 && node.type() == node_pcdata) {
-        const char* p = node.value();
-        const char* e = p + std::strlen(p);
-        while (p != e) {
-            const char* q = p;
-            uint32_t v = utf8::next(p, e);
-            char c = normalise(v);
-            if (c && c != walk_prev) {
-                index.push_back(content.size());
-                normalised += c;
-                walk_prev = c;
-            }
-            content.append(q, p);
-        }
-    }
-    return true;
-}
-
+    bool relevant;
+    MyContent content;
+    Metadata metadata;
+};
 
 
 struct Chunk
@@ -178,14 +121,14 @@ void Analyse::process() {
         }
         for (int i = 0; i < chunk.positions.size(); ++i) {
             pi p = chunk.positions[i];
-            texts[p.first].positions.push_back(p.second);
+            texts[p.first].relevant = true;
         }
         chunks.push_back(chunk);
     }
 
     int relevant = 0;
     for (int t = 0; t < n; ++t) {
-        if (texts[t].positions.size()) {
+        if (texts[t].relevant) {
             ++relevant;
         }
     }
@@ -194,7 +137,7 @@ void Analyse::process() {
     timer.log("Parse relevant files");
     #pragma omp parallel for
     for (int t = 0; t < n; ++t) {
-        if (texts[t].positions.size()) {
+        if (texts[t].relevant) {
             texts[t].parse();
         }
     }
@@ -240,16 +183,16 @@ void Analyse::process() {
             int i2 = pos + chunk.size;
             int i0 = i1 - context;
             int i3 = i2 + context;
-            int n = text.normalised.size();
+            int n = text.content.normalised.size();
             i0 = std::max(i0, 0);
             i3 = std::min(i3, n);
-            i0 = i0 ? text.index[i0] : 0;
-            i1 = text.index[i1];
-            i2 = text.index[i2];
-            i3 = text.index[i3];
-            xb.text() = text.content.substr(i0, i1 - i0).c_str();
-            xc.text() = text.content.substr(i1, i2 - i1).c_str();
-            xa.text() = text.content.substr(i2, i3 - i2).c_str();
+            i0 = i0 ? text.content.index[i0] : 0;
+            i1 = text.content.index[i1];
+            i2 = text.content.index[i2];
+            i3 = text.content.index[i3];
+            xb.text() = text.content.content.substr(i0, i1 - i0).c_str();
+            xc.text() = text.content.content.substr(i1, i2 - i1).c_str();
+            xa.text() = text.content.content.substr(i2, i3 - i2).c_str();
         }
         ++c;
     }
@@ -264,10 +207,10 @@ void Analyse::process() {
 char Analyse::peek_chunk(const Chunk& chunk, int j) {
     const Text& text = texts[chunk.positions[j].first];
     const int start = chunk.positions[j].second;
-    if (start + chunk.size >= text.normalised.size()) {
+    if (start + chunk.size >= text.content.normalised.size()) {
         return -1;
     } else {
-        return text.normalised[start + chunk.size];
+        return text.content.normalised[start + chunk.size];
     }
 }
 
