@@ -16,6 +16,7 @@ NORMALISE = {
     'C': 'K',
     'O': 'V',
     'D': 'T',
+    'Z': 'S',
 }
 
 def main():

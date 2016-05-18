@@ -45,7 +45,7 @@ inline char normalise(uint32_t x) {
         case    89:  // LATIN CAPITAL LETTER Y
             return 'I';
         case    90:  // LATIN CAPITAL LETTER Z
-            return 'Z';
+            return 'S';
         case    97:  // LATIN SMALL LETTER A
             return 'A';
         case    98:  // LATIN SMALL LETTER B
@@ -91,7 +91,7 @@ inline char normalise(uint32_t x) {
         case   121:  // LATIN SMALL LETTER Y
             return 'I';
         case   122:  // LATIN SMALL LETTER Z
-            return 'Z';
+            return 'S';
         case   224:  // LATIN SMALL LETTER A WITH GRAVE
             return 'A';
         case   225:  // LATIN SMALL LETTER A WITH ACUTE
