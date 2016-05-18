@@ -2,8 +2,8 @@ var url='graph.json'
 var W=500,
     H=500;
 var force = d3.layout.force()
-    .charge(-200)
-    .linkDistance(10)
+    .charge(-120)
+    .linkDistance(30)
     .size([W, H]);
 
 var svg = d3.select("body").append("svg")
@@ -59,22 +59,22 @@ d3.json(url, function(error, graph) {
 	.attr("stroke-width", 2)
 	.attr("opacity", 0.8);
     
-    var costs = _.map(graph.edges, function(e){
-	return e['c'];
-    });
-    var link_weight = d3.scale.quantize()
-	.domain([d3.min(costs), d3.max(costs)])
-	.range([100, 200, 300, 400, 500, 600, 700, 800, 900]);
+    // var costs = _.map(graph.edges, function(e){
+    // 	return e['c'];
+    // });
+    // var link_weight = d3.scale.quantize()
+    // 	.domain([d3.min(costs), d3.max(costs)])
+    // 	.range([100, 200, 300, 400, 500, 600, 700, 800, 900]);
 
-    function dragmove(d) {
-	d3.select(this)
-	    .attr('transform', function(d){
-		return 'translate(' + [d3.event.x, d3.event.y] + ')';
-	    });
-    }
+    // function dragmove(d) {
+    // 	d3.select(this)
+    // 	    .attr('transform', function(d){
+    // 		return 'translate(' + [d3.event.x, d3.event.y] + ')';
+    // 	    });
+    // }
 
-    var drag = d3.behavior.drag()
-	.on("drag", dragmove);
+    // var drag = d3.behavior.drag()
+    // 	.on("drag", dragmove);
 
     var link_labels = glinks.append("text")
 	.text('')
@@ -97,28 +97,28 @@ d3.json(url, function(error, graph) {
 	    return 'red';
 	})
 	.attr('opacity', 0.8)
-	.call(force.drag)
-	.on('click', function(d){
-	    var active_r = 15;
-	    var deactive_r = 5;
-	    var text = node_labels.filter(function(other){
-		return other['message_id'] == d['message_id'];
-	    });
-	    var me = d3.select(this)
-	    if (text.style('display') == 'none'){
-		text.style('display', 'inline');
-		text.style('fill', me.style('fill'));
-		// me.attr('opacity', 1.0);
-		me.attr('r', active_r);
-	    }
-	    else{
-		text.style('display', 'none');
-		// d3.select(this).attr('opacity', 0.3);
-		me.attr('r', deactive_r);
-	    }
-	})
-	.on('mouseover', tip.show)
-	.on('mouseout',  tip.hide);
+	// .call(force.drag)
+	// .on('click', function(d){
+	//     var active_r = 15;
+	//     var deactive_r = 5;
+	//     var text = node_labels.filter(function(other){
+	// 	return other['message_id'] == d['message_id'];
+	//     });
+	//     var me = d3.select(this)
+	//     if (text.style('display') == 'none'){
+	// 	text.style('display', 'inline');
+	// 	text.style('fill', me.style('fill'));
+	// 	// me.attr('opacity', 1.0);
+	// 	me.attr('r', active_r);
+	//     }
+	//     else{
+	// 	text.style('display', 'none');
+	// 	// d3.select(this).attr('opacity', 0.3);
+	// 	me.attr('r', deactive_r);
+	//     }
+	// })
+	// .on('mouseover', tip.show)
+	// .on('mouseout',  tip.hide);
 
     var node_labels = svg.selectAll('text.node_label')
 	.data(graph.nodes)
@@ -130,7 +130,7 @@ d3.json(url, function(error, graph) {
 	.attr('font-weight', 'bold')
 	.style('display', 'none')
 	.style('text-anchor', 'middle')
-	.call(drag);
+	// .call(drag);
 
 
     force.on("tick", function() {
