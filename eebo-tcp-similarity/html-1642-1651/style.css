@@ -57,21 +57,26 @@ A:hover, A:active, .selected A {
 }
 
 .authorline {
-    margin-top: 15px;
-    margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .code {
     display: inline-block;
-    margin-right: 8px;
+}
+
+.author, .longauthor {
+    display: inline-block;
+    padding-left: 10px;
 }
 
 .author {
-    display: inline-block;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-weight: 700;
     color: #800;
+    font-weight: 700;
+}
+
+.longauthor {
+    font-weight: 300;
 }
 
 .title {
