@@ -1,2 +1,3 @@
 #!/bin/sh
-cat eebo-tcp.txt | ./similarity output
+
+exec ./similarity-one.sh eebo-tcp.txt output
