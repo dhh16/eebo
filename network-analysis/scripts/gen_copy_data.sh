@@ -21,6 +21,13 @@ python copying_author_network.py \
     --output_dir $output_dir
 
 
+echo "building text network"
+python copying_text_network.py \
+    --cp_df_path $output_dir/copying_dataframe.pkl \
+    --txt_df_path $output_dir/text_dataframe.pkl \
+    --output_dir $output_dir
+
+
 ssh ${host} mkdir -p ${host_dir}
 scp $output_dir/${name} ${host}:${host_dir}
 ssh ${host} chmod -R a+rx ${host_dir}/
