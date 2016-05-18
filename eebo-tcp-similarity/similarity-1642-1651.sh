@@ -1,4 +1,3 @@
 #!/bin/sh
 
-mkdir -p output-1642-1651
-cat eebo-tcp-1642-1651.txt | ./similarity output-1642-1651
+exec ./similarity-one.sh eebo-tcp-1642-1651.txt output-1642-1651

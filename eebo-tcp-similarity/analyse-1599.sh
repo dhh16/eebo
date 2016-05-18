@@ -1,6 +1,3 @@
 #!/bin/sh
 
-mkdir -p html-1599
-cp html/style.css html-1599/
-./analyse output-1599/results.xml output-1599/raw-256.txt < eebo-tcp-1599.txt
-./analyse.py html-1599 output-1599/results.xml
+exec ./analyse-one.sh eebo-tcp-1599.txt output-1599 html-1599 256
