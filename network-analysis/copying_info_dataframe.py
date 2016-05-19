@@ -10,7 +10,8 @@ def load_doc(path):
 def extract_text_info(n):
     return {
         "id": n['code'],
-        "author_raw": n['author'],
+        "author_short": n['author'],
+        "author_long": n['longauthor'],
         "title_raw": n['title'],
         "date_raw": n['date'],
         "publ_raw": n['publ'],
