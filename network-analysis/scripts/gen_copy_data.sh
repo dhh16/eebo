@@ -7,7 +7,8 @@ output_dir=$root/network-analysis/$dataset
 
 host=shell.cs.helsinki.fi
 host_dir=/cs/home/hxiao/public_html/eebo/$dataset
-name=author_network_of_copying_relation.graphml
+name1=author_network_of_copying_relation.graphml
+name2=text_network_of_copying_relation.graphml
 
 echo "generating data frames"
 python copying_info_dataframe.py \
@@ -29,5 +30,7 @@ python copying_text_network.py \
 
 
 ssh ${host} mkdir -p ${host_dir}
-scp $output_dir/${name} ${host}:${host_dir}
+scp $output_dir/${name1} ${host}:${host_dir}
+scp $output_dir/${name2} ${host}:${host_dir}
+
 ssh ${host} chmod -R a+rx ${host_dir}/
