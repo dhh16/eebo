@@ -12,7 +12,7 @@ all: d3_${stt}
 	echo "done"
 
 text_network:
-	scp output/${tnc} ${host}:${host_dir}
+	scp output-1599/${tnc} ${host}:${host_dir}
 	ssh ${host} chmod a+r ${host_dir}/${tnc}
 
 author_network:
