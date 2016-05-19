@@ -1,6 +1,9 @@
 var width = 1200,
     height = 800;
 
+var text_box_width=400,
+    text_box_height=100;
+
 var min_node_size=5,
     max_node_size=15;
 
@@ -32,7 +35,6 @@ d3.json("graph.json", function(error, graph) {
 	.enter().append("line")
 	.attr("class", "link")
 	.style("stroke-width", 1);
-    // .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
 
     var node = svg.selectAll(".node")
 	.data(graph.nodes)
@@ -46,10 +48,8 @@ d3.json("graph.json", function(error, graph) {
 	    var text = node_labels.filter(function(other){
 		return other['id'] == d['id'];
 	    });
-	    var me = d3.select(this)
 	    if (text.style('display') == 'none'){
 		text.style('display', 'inline');
-		text.style('fill', 'black');
 	    }
 	    else{
 		text.style('display', 'none');
@@ -57,16 +57,21 @@ d3.json("graph.json", function(error, graph) {
 	})
 	.call(force.drag);
 
-    var node_labels = svg.selectAll('text.node_label')
-	.data(graph.nodes)
-	.enter()
-	.append('text')
-	.attr("class", "node_label")
+    var node_labels = svg.selectAll('foreignObject')
+    	.data(graph.nodes)
+    	.enter()
+	.append('foreignObject')
+    	.style('display', 'none')
+	.attr('width', text_box_width)
+    	.attr('height', text_box_height)
+    	.on('click', function(d){
+	    var me = d3.select(this);
+	    me.style('display', 'none');
+	});
+    
+    node_labels.append('xhtml:p')
 	.text(function(d){return d.name;})
-	.attr('font-size', 16)
-	.attr('font-weight', 'bold')
-	.style('display', 'none')
-	.style('text-anchor', 'middle')
+
 
     node.append("title")
 	.text(function(d) {
@@ -82,9 +87,12 @@ d3.json("graph.json", function(error, graph) {
 	node.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
 
-	node_labels.attr('transform', function(d){
-	    return 'translate(' + [d.x, d.y] + ')'; 
-	})
-    });
+	node_labels
+	    .attr("x", function(d) { return d.x - text_box_width / 2; })
+            .attr("y", function(d) { return d.y - text_box_height / 2; });
+	    // .attr('transform', function(d){
+	    // 	return 'translate(' + [d.x, d.y] + ')'; 
+	    // });
+    });   
 });
 

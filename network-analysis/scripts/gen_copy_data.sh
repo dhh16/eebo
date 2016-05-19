@@ -1,6 +1,6 @@
 #! /bin/bash
 
-root=/cs/home/hxiao/code/eebo
+root=~/code/eebo
 
 dataset=$1
 output_dir=$root/network-analysis/$dataset

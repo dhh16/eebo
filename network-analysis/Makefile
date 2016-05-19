@@ -5,10 +5,11 @@ tnc=text_network_of_copying_relation.graphml
 anc=author_network_of_copying_relation.graphml
 ssh=ssh ${host}
 cv=civil-war
+cvt=civil-war-text
 st=sixteen
 stt=sixteen-text
 
-all: d3_${stt}
+all: d3_${cvt}
 	echo "done"
 
 text_network:
@@ -19,11 +20,17 @@ author_network:
 	scp output/${anc} ${host}:${host_dir}
 	ssh ${host} chmod a+r ${host_dir}/${anc}
 
-d3_civil_war:
+d3_${cv}:
 	ssh ${host} rm -rf ${host_dir}/${cv}
 	scp -r html/ ${host}:${host_dir}/${cv}
 	scp data/${cv}/graph.json ${host}:${host_dir}/${cv}
 	${ssh} chmod -R a+rx ${host_dir}/${cv}
+
+d3_${cvt}:
+	ssh ${host} rm -rf ${host_dir}/${cvt}
+	scp -r html/ ${host}:${host_dir}/${cvt}
+	scp data/${cvt}/graph.json ${host}:${host_dir}/${cvt}
+	${ssh} chmod -R a+rx ${host_dir}/${cvt}
 
 d3_${st}:
 	ssh ${host} rm -rf ${host_dir}/${st}
