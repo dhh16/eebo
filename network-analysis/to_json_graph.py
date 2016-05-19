@@ -15,7 +15,13 @@ G = nx.Graph()
 # Read csv for nodes and edges using pandas:
 nodes = pd.read_csv("data/{}/nodes.csv".format(args.dataset),
                     sep='\t')
-nodes.rename(columns={'label': 'name'}, inplace=True)
+
+if 'd0' in nodes.columns:
+    nodes.rename(columns={'d0': 'name'}, inplace=True)
+elif 'label' in nodes.columns:
+    nodes.rename(columns={'label': 'name'}, inplace=True)
+
+    
 edges = pd.read_csv("data/{}/edges.csv".format(args.dataset),
                     sep='\t')
 

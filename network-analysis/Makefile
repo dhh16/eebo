@@ -6,8 +6,9 @@ anc=author_network_of_copying_relation.graphml
 ssh=ssh ${host}
 cv=civil-war
 st=sixteen
+stt=sixteen-text
 
-all: d3_${st}
+all: d3_${stt}
 	echo "done"
 
 text_network:
@@ -29,3 +30,9 @@ d3_${st}:
 	scp -r html/ ${host}:${host_dir}/${st}
 	scp data/${st}/graph.json ${host}:${host_dir}/${st}
 	${ssh} chmod -R a+rx ${host_dir}/${st}
+
+d3_${stt}:
+	ssh ${host} rm -rf ${host_dir}/${stt}
+	scp -r html/ ${host}:${host_dir}/${stt}
+	scp data/${stt}/graph.json ${host}:${host_dir}/${stt}
+	${ssh} chmod -R a+rx ${host_dir}/${stt}

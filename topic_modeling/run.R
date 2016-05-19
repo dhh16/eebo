@@ -4,7 +4,8 @@ library('mallet')
 library('LDAvis')
 library('lda')
 
-dir.name <- "/homeappl/home/hxiao/Downloads/eebo-tcp-1642-1651-2-24"
+## dir.name <- "/homeappl/home/hxiao/Downloads/eebo-tcp-1642-1651-2-24"
+dir.name <- "/homeappl/home/hxiao/Downloads/eebo-tcp-1000-1599"
 documents <- mallet.read.dir(dir.name)$text
 
 stop_words <- stopwords("SMART")
