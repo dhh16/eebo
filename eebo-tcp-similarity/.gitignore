@@ -3,4 +3,5 @@
 /similarity
 /analyse
 /metadata
+/normalised
 *.o
