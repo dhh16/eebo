@@ -10,7 +10,7 @@ Our research questions are:
 2. Can we identify groups of texts that are “related” through their content?
 
 
-## what I did
+## What I did
 
 I am mainly responsible for the data analysis part, including:
 
@@ -22,7 +22,7 @@ I am mainly responsible for the data analysis part, including:
 - topic modeling and result visualization
 
 
-## what I brought to the group
+## What I brought to the group
 
 I brought the following:
 
@@ -34,7 +34,7 @@ so that humanity people in our group can interact with the visualization to gain
 Humanity people might also get to know that computer is powerful and complementary to human intelligence. 
 
 
-## what I learned
+## What I learned
 
 Two aspects: group work and technical:
 
@@ -51,7 +51,7 @@ Two aspects: group work and technical:
     - how to do community detection
   - topic modeling and visualization in R using library `lda`and `LDAvis`
 
-## what to learn in the future
+## What to learn in the future
 
 - group work
   - how to express my ideas
@@ -61,7 +61,7 @@ Two aspects: group work and technical:
   - more network clustering algorithms and understand how they work
   - more topic modeling algorithms
 
-## what to praise for this hackathon
+## What to praise for this hackathon
 
 ### Theme
 
@@ -78,7 +78,7 @@ Last, free coffee and tea is nice.
 
 I can feel their trust and support. 
 
-## what can be improved
+## What can be improved
 
 ### More international
 
